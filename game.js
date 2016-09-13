@@ -1,25 +1,45 @@
-var wordBank = ['testy', 'brent', 'hello', 'happy', 'test'];
+var Word = require('./word.js');
 
-function game(){
-	this.word;
+var wordBank = ['testWord', 'testword withaspace', 'testwordwithanumber 7'];
 
-	this.startNewGame = function(){
-		this.word = this.generateRandomWord();
-	}
+function Game() {
+    this.wins = 0;
+    this.losses = 0;
+    this.livesRemaining = 0;
+    this.lettersUsed = [];
+    this.word;
 
-	this.generateRandomWord = function(){
-		var len = wordBank.length;
-		var randomWord = wordBank[Math.floor(Math.random() * len)];
+    this.startNewGame = function () {
+        this.livesRemaining = 10;
+        this.lettersUsed = [];
+        this.word = this.generateRandomWord();
 
-		console.log("test generateRandomWord word: " + randomWord);
+    };
 
-		return randomWord;
-	}
-	
-	//method to check if a word is being created
-	this.printWord = function(){
-		console.log('printWord test word is: ' + this.word);
-	}
+    this.generateRandomWord = function () {
+        var randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+        return new Word(randomWord);
+    };
+
+    this.printResults = function (str) {
+
+
+        switch (str) {
+            case "correct":
+                console.log('correct');
+                break;
+            case "wrong":
+                console.log('incorrect');
+                console.log('# of guesses left', this.livesRemaining);
+                break;
+            case "already":
+                console.log('already guessed');
+                break;
+            default:
+                console.log('error');
+        }
+
+    }
 }
 
-module.exports = game;
+module.exports = Game;
